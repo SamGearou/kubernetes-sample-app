@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubia
+spec:
+  tls:
+    - hosts:
+      - kubia.example.com
+      secretName: tls-secret
+  rules:
+    - host: kubia.example.com # This Ingress maps the kubia.example.com domain name to your service.
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: kubia-nodeport # All requests will be sent to port 80 of the kubia-nodeport service
+                port:
+                  number: 80
+
+# Note: Ingress resources can sit in front of multiple different services

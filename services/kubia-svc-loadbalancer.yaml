@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-loadbalancer
+spec:
+  type: LoadBalancer # Note: minikube does not support assigning ExternalIP for load balancer service
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: kubia
+
+  # kubectl get service kubia-loadbalancer --output='jsonpath="{.spec.ports[0].nodePort}"' --> to get the correct nodePort for minikube server (can't use load balancer as it has no ExternalIP)
+  # minikube ip --> to retrieve minikube IP address
